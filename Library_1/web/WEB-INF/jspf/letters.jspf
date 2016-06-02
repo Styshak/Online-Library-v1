@@ -1,0 +1,25 @@
+<%@ page pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<div class="letters">
+
+    <%
+        if (request.getParameter("letter") != null) {
+            session.setAttribute("searchLettter", request.getParameter("letter"));
+        } else {
+            session.setAttribute("searchLettter", null);
+        }
+    %>
+
+    <jsp:useBean id="letterList" class="com.styshak.beans.LetterList" scope="application"/>
+    <c:forEach var="letter" items="${letterList.getLetterList()}">
+        <c:choose>
+            <c:when test="${letter.getSymbol().toString().equals(searchLettter)}">
+                <a style="color:red;" href="book.jsp?letter=${letter.getSymbol()}">${letter.getSymbol()}</a>
+            </c:when>
+            <c:otherwise>
+                <a  href="book.jsp?letter=${letter.getSymbol()}">${letter.getSymbol()}</a>
+            </c:otherwise>
+        </c:choose>
+    </c:forEach>
+</div>
